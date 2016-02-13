@@ -8,7 +8,7 @@ Example Playbook
 
     - hosts: servers
       roles:
-         - webbylab.nodejs
+         - WebbyLab.nodejs
 
 License
 -------
