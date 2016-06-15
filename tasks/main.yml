@@ -6,9 +6,22 @@
       - make
       - g++
 
-- name: Add the node.js PPA
-  apt_repository: repo=ppa:chris-lea/node.js state='present' update_cache=yes
+- name: Add nodejs repo key
+  apt_key:
+    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
+    state: present
+
+- name: Add the node.js repo
+  apt_repository:
+    repo: "{{item}}"
+    state: 'present'
+    update_cache: yes
+  with_items:
+    - deb https://deb.nodesource.com/node_6.x {{ ansible_distribution_release|lower }} main
+    - deb-src https://deb.nodesource.com/node_6.x {{ ansible_distribution_release|lower }} main
+
+- name: Intsall build-essential
+  apt: pkg=build-essential state=present
 
 - name: Install nodejs
-  apt: pkg=nodejs state=installed
-
+  apt: pkg=nodejs state=latest
